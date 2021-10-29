@@ -4,21 +4,45 @@ import java.io.*;
 public class Runner {
     public static void main(String[] args) {
         //writeFile();
-        FileManage fileManage=new FileManage();
-        fileManage.writeFile();
+       // FileManage fileManage=new FileManage();
+       // fileManage.writeFile();
+        Factoryclass factoryclass=new Factoryclass();
+        CompairtwoFile managefile=Factoryclass.getUser("FILEMANAGE");
+        managefile.writeFile();
+
     }
 
 }
+interface CompairtwoFile{
+     int compairFile();
+    void writeFile();
+}
+class Factoryclass {
+    public static CompairtwoFile getUser(String user){
+        if(user == null){
+            return null;
+        }
+        if(user.equalsIgnoreCase("FILECOMPAIR")){
+            return new FileCompair();
 
-class  FileCompair{
-    public static int compairfile() {
+        } else if(user.equalsIgnoreCase("FILEMANAGE")){
+            return new FileManage();
+
+        }
+
+        return null;
+    }
+}
+class  FileCompair implements CompairtwoFile{
+      public int compairFile() {
         int count = 0;
         BufferedReader reader1 = null;
         BufferedReader reader2 = null;
         try {
-            reader1 = new BufferedReader(new FileReader("D:\\file1.txt"));
-
-            reader2 = new BufferedReader(new FileReader("D:\\file2.txt"));
+           reader1 = new BufferedReader(new FileReader("D:\\file1.txt"));
+           // reader1 = new BufferedReader(new FileReader("C:\\Users\\saroj.das\\IdeaProjects\\CompairTwoFile\\src\\saroj1.json"));
+           // reader2 = new BufferedReader(new FileReader("C:\\Users\\saroj.das\\IdeaProjects\\CompairTwoFile\\src\\saroj2.json"));
+          reader2 = new BufferedReader(new FileReader("D:\\file2.txt"));
         } catch (FileNotFoundException e) {
             System.out.println("file not found");
             //e.printStackTrace();
@@ -112,14 +136,20 @@ class  FileCompair{
         }
         return count;
     }
+
+    @Override
+    public void writeFile() {
+
+    }
 }
-    class FileManage {
+    class FileManage implements CompairtwoFile {
     FileCompair fileCompair=new FileCompair();
+
 
         public static void createNewFile() {
 
             try {
-                File file = new File("Saroj.json");
+                File file = new File("Saroj1.json");
                 if (file.createNewFile()) {
                     System.out.println("File created: " + file.getName());
                 } else {
@@ -131,14 +161,20 @@ class  FileCompair{
             }
         }
 
-        public static void writeFile() {
-            int x = CompairText.FileCompair.compairfile();
+        @Override
+        public int compairFile() {
+            return 0;
+        }
+
+        public void writeFile() {
+            //int x = CompairText.FileCompair.compairFile();
+            int x=fileCompair.compairFile();
 
             System.out.println("COUNT = "+x);
             if (x == 0) {
                 try {
                     FileWriter myWriter = new FileWriter("Saroj.json");
-                    myWriter.write("");
+                    myWriter.write("{two files are different}");
                     //System.out.println();
 
                     myWriter.close();
@@ -153,7 +189,7 @@ class  FileCompair{
                 try {
                     FileWriter myWriter = new FileWriter("Saroj.json");
                     myWriter.write("No of words " + x);
-                    //System.out.println();
+                    //System.out.println();"Country":"India"
 
                     myWriter.close();
 
