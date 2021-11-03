@@ -1,6 +1,8 @@
 package CompairText;
+//import org.json.simple.JSONObject;
 import java.io.*;
-
+//import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 public class Runner {
     public static void main(String[] args) {
         //writeFile();
@@ -40,8 +42,8 @@ class  FileCompair implements CompairtwoFile{
         BufferedReader reader2 = null;
         try {
            reader1 = new BufferedReader(new FileReader("D:\\file1.txt"));
-           // reader1 = new BufferedReader(new FileReader("C:\\Users\\saroj.das\\IdeaProjects\\CompairTwoFile\\src\\saroj1.json"));
-           // reader2 = new BufferedReader(new FileReader("C:\\Users\\saroj.das\\IdeaProjects\\CompairTwoFile\\src\\saroj2.json"));
+          //  reader1 = new BufferedReader(new FileReader("C:\\Users\\saroj.das\\IdeaProjects\\CompairTwoFile\\src\\main\\java\\saroj1.json"));
+          //  reader2 = new BufferedReader(new FileReader("C:\\Users\\saroj.das\\IdeaProjects\\CompairTwoFile\\src\\main\\java\\saroj2.json"));
           reader2 = new BufferedReader(new FileReader("D:\\file2.txt"));
         } catch (FileNotFoundException e) {
             System.out.println("file not found");
@@ -134,7 +136,9 @@ class  FileCompair implements CompairtwoFile{
             System.out.println("IoException");
             //e.printStackTrace();
         }
+          System.out.println(count);
         return count;
+
     }
 
     @Override
@@ -144,6 +148,7 @@ class  FileCompair implements CompairtwoFile{
 }
     class FileManage implements CompairtwoFile {
     FileCompair fileCompair=new FileCompair();
+        JSONObject jsonObject = new JSONObject();
 
 
         public static void createNewFile() {
@@ -169,6 +174,7 @@ class  FileCompair implements CompairtwoFile{
         public void writeFile() {
             //int x = CompairText.FileCompair.compairFile();
             int x=fileCompair.compairFile();
+            jsonObject.put("Words","number of words "+x);
 
             System.out.println("COUNT = "+x);
             if (x == 0) {
@@ -188,7 +194,9 @@ class  FileCompair implements CompairtwoFile{
             } else {
                 try {
                     FileWriter myWriter = new FileWriter("Saroj.json");
-                    myWriter.write("No of words " + x);
+                    myWriter.write(jsonObject.toJSONString());
+                   // myWriter.write("No of words " + x);
+                    //myWriter.write(String.valueOf(jsonObject.put("Words"," No.Of words  "+x)));
                     //System.out.println();"Country":"India"
 
                     myWriter.close();
